@@ -211,4 +211,20 @@ module.exports = function($scope) {
 	this.addPlayer = function(game, player) {
 		game.players[game.players.length] = player;
 	}
+
+	this.addGame = function(game, player) {
+		var time = new Date();
+		this.games[this.games.length] = 
+			{
+			 layout: game.layout,
+			 createdOn: time.toString(), 
+			 startedOn: "",
+			 endedOn: "",
+			 createdBy: player,
+			 minPlayers: 1,
+			 maxPlayers: game.maxPlayers,
+			 players: [player],
+			 state: "open"
+			}
+	}
 }
