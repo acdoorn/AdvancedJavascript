@@ -7,26 +7,26 @@
  </head>
  <body class="container" ng-controller="GameController as console">
  	 <h2>Add Game</h2>
- 	 <div>
+ 	 <div ng-controller="UserController as currentUser">
  	 	<div class="input-group">
  	 	  <span for="gameType">Type of game: </span>
  	  	  <select id="gameType" class="form-control" ng-model="newGame.layout">
 		    <option ng-repeat="type in console.gameTypes">{{ type }}</option>
 		  </select>
 	  	</div><br/>
- 	 	<div class="input-group" ng-model="newGame.maxPlayers">
+ 	 	<div class="input-group">
  	 	  <span for="maxPlayers">Maximum amount of players: </span>
-		  <input class="form-control" id="maxPlayers" type="number" min="1" max="35" value="6"></input>
+		  <input class="form-control" id="maxPlayers" ng-model="newGame.maxPlayers" type="number" min="1" max="35" value="6"/>
 	  	</div><br/>
-	  	<button class="btn btn-success" ng-click="console.addGame(newGame, UserController.user)">Add game</button>
+	  	<button class="btn btn-success" ng-click="console.addGame(newGame, currentUser.user)">Add game</button>
  	 </div>
 	 <h2>Current Games</h2>
-	 <div class="list-group">
-	 	<div class="list-group-item" ng-repeat="game in console.games">
+	 <div ng-controller="UserController as currentUser" class="list-group">
+	 	<div class="list-group-item" ng-repeat="game in console.games | orderBy:'createdOn'">
 		 	<div>
 			 	<h3 class="list-group-item-heading">{{ game.layout }}</h3>
 			 	<div style="float:right;">
-					<button ng-show="game.state == 'open' && game.players.length != game.maxPlayers" class="btn btn-success btn-lg" ng-click="console.addPlayer(game, UserController.user)">Join</button>
+					<button ng-show="game.state == 'open' && game.players.length != game.maxPlayers" class="btn btn-success btn-lg" ng-click="console.addPlayer(game, currentUser.user)">Join</button>
 					<button ng-show="game.state == 'playing'" class="btn btn-warning btn-lg">Playing</button>
 				 	<button ng-show="game.state == 'finished'" class="btn btn-danger btn-lg">Finished</button>
 			 	</div>
