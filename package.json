@@ -1,0 +1,26 @@
+{
+  "name": "AdvJS",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/acdoorn/AdvancedJavascript.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/acdoorn/AdvancedJavascript/issues"
+  },
+  "homepage": "https://github.com/acdoorn/AdvancedJavascript",
+  "devDependencies": {
+    "angular": "^1.3.15",
+    "grunt": "^0.4.5",
+    "grunt-browserify": "^3.7.0",
+    "grunt-contrib-copy": "^0.8.0",
+    "grunt-contrib-watch": "^0.6.1"
+  }
+}
