@@ -2,7 +2,7 @@
 module.exports = function($scope) {
 	this.games = [
 		{
-		 layout: "snake", // -> 'shanghai'|'snake'|'ox'|'ram'|'dragon'|'rooster'|'monkey'
+		 layout: "Snake", // -> 'shanghai'|'snake'|'ox'|'ram'|'dragon'|'rooster'|'monkey'
 		 createdOn: "26-4-2015 21:15:23", // date + time
 		 startedOn: "27-4-2015 18:55:41", // date + time
 		 endedOn: "", // date + time
@@ -46,7 +46,7 @@ module.exports = function($scope) {
 		 state: "playing" // -> 'open'|'playing'|'finished'
 		},
 		{
-		 layout: "ram", // -> 'shanghai'|'snake'|'ox'|'ram'|'dragon'|'rooster'|'monkey'
+		 layout: "Ram", // -> 'shanghai'|'snake'|'ox'|'ram'|'dragon'|'rooster'|'monkey'
 		 createdOn: "25-3-2015 21:15:23", // date + time
 		 startedOn: "30-3-2015 19:41:55", // date + time
 		 endedOn: "15-4-2015 14:33:02", // date + time
@@ -90,7 +90,7 @@ module.exports = function($scope) {
 		 state: "finished" // -> 'open'|'playing'|'finished'
 		},
 		{
-		 layout: "dragon", // -> 'shanghai'|'snake'|'ox'|'ram'|'dragon'|'rooster'|'monkey'
+		 layout: "Dragon", // -> 'shanghai'|'snake'|'ox'|'ram'|'dragon'|'rooster'|'monkey'
 		 createdOn: "25-4-2015 21:15:23", // date + time
 		 startedOn: "", // date + time
 		 endedOn: "", // date + time
@@ -148,7 +148,7 @@ module.exports = function($scope) {
 		 state: "open" // -> 'open'|'playing'|'finished'
 		},
 		{
-		 layout: "monkey", // -> 'shanghai'|'snake'|'ox'|'ram'|'dragon'|'rooster'|'monkey'
+		 layout: "Monkey", // -> 'shanghai'|'snake'|'ox'|'ram'|'dragon'|'rooster'|'monkey'
 		 createdOn: "25-4-2015 21:15:23", // date + time
 		 startedOn: "", // date + time
 		 endedOn: "", // date + time
@@ -206,6 +206,7 @@ module.exports = function($scope) {
 		 state: "open" // -> 'open'|'playing'|'finished'
 		}
 	];
+	this.gameTypes = ["Shanghai","Snake","Ox","Ram","Dragon","Rooster","Monkey"];
 
 	this.addPlayer = function(game, player) {
 		game.players[game.players.length] = player;
