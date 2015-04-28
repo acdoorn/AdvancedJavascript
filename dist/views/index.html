@@ -11,7 +11,7 @@
 		 	<div>
 			 	<h3 class="list-group-item-heading">{{ game.layout }}</h3>
 			 	<div style="float:right;">
-					<button ng-show="game.state == 'open'" class="btn btn-success btn-lg">Join</button>
+					<button ng-show="game.state == 'open' && game.players.length != game.maxPlayers" class="btn btn-success btn-lg" ng-click="console.addPlayer(game, UserController.user)">Join</button>
 					<button ng-show="game.state == 'playing'" class="btn btn-warning btn-lg">Playing</button>
 				 	<button ng-show="game.state == 'finished'" class="btn btn-danger btn-lg">Finished</button>
 			 	</div>

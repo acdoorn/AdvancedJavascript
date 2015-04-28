@@ -207,8 +207,7 @@ module.exports = function($scope) {
 		}
 	];
 
-	this.joinGame = function(player) {
-		game.player[game.players.length] = player
-		
+	this.addPlayer = function(game, player) {
+		game.players[game.players.length] = player;
 	}
 }
