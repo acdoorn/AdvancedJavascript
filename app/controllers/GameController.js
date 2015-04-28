@@ -207,7 +207,7 @@ module.exports = function($scope) {
 		}
 	];
 
-	this.deactivateGame = function(game) {
-		game.active = false;
+	this.addPlayer = function(game, player) {
+		game.players[game.players.length] = player;
 	}
 }
