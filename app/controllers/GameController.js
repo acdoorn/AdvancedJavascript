@@ -206,6 +206,7 @@ module.exports = function($scope) {
 		 state: "open" // -> 'open'|'playing'|'finished'
 		}
 	];
+
 	this.gameTypes = ["Shanghai","Snake","Ox","Ram","Dragon","Rooster","Monkey"];
 
 	this.addPlayer = function(game, player) {
@@ -225,6 +226,10 @@ module.exports = function($scope) {
 			 maxPlayers: game.maxPlayers,
 			 players: [player],
 			 state: "open"
-			}
+			};
 	}
+
+	/*this.myMethodForTest = function(name) {
+		return 'Hi ' + name + '!';
+	}*/
 }
