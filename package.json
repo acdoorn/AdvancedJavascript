@@ -31,9 +31,10 @@
     "karma": "^0.12.31",
     "karma-browserify": "^4.1.2",
     "karma-chai": "^0.1.0",
-    "karma-coverage": "^0.2.6",
+    "karma-coverage": "0.2.6",
     "karma-mocha": "^0.1.10",
     "karma-sinon": "^1.0.4",
+    "karma-chrome-launcher": "~0.1",
     "mocha": "^2.2.4",
     "sinon": "^1.14.1"
   }

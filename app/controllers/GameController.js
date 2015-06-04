@@ -3,6 +3,7 @@ module.exports = function($scope, $http) {
 	$scope.loading = true;
     $scope.editMode = false;
     $scope.this = this;
+
 	this.gameTypes = ["Shanghai","Snake","Ox","Ram","Dragon","Rooster","Monkey"];
     
 	$http.get('https://mahjongmayhem.herokuapp.com/games/').success(function (data) {
@@ -60,5 +61,10 @@ module.exports = function($scope, $http) {
 			 state: "open"
 			}
 		}
+
 	}
+
+	/*this.myMethodForTest = function(name) {
+		return 'Hi ' + name + '!';
+	}*/
 }
