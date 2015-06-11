@@ -12,5 +12,4 @@ module.exports = function($scope, $http, $routeParams) {
         alert("An Error has occured while loading the game!");
         $scope.loading = false;
     });
- 
 }
