@@ -9,7 +9,8 @@
  	 <h2>Current Game</h2>
  	 	<div>
 	 	 	<div ng-repeat="tile in console.tiles">
-	 	 	  <span style="position:absolute;left:{{tile.xPos*25+100}}px;top:{{tile.yPos*25+100-((tile.zPos == 2) ? 0 : 3)-((tile.zPos == 3) ? 0 : 6)}}px;height:50px;width:50px;z-index;{{tile.zPos}}; border:1px #000 solid; background-color:lightgray;">Tile: {{ tile.tile._id }}</span>
+         <span class="tile suit_{{tile.tile.suit}} name_{{tile.tile.name}}" style="position:absolute;left:{{tile.xPos*18+100}}px;top:{{tile.yPos*22+100-((tile.zPos == 2) ? 0 : 3)-((tile.zPos == 3) ? 0 : 6)}}px;z-index:{{tile.zPos}};"></span><!-- 
+	 	 	  <span style="position:absolute;left:{{tile.xPos*25+100}}px;top:{{tile.yPos*25+100-((tile.zPos == 2) ? 0 : 3)-((tile.zPos == 3) ? 0 : 6)}}px;height:50px;width:50px;z-index;{{tile.zPos}}; border:1px #000 solid; background-color:lightgray;">Tile: {{ tile.tile._id }}</span> -->
 	 	 	</div>
 	  	</div>
    <script src="../js/app.js"></script>

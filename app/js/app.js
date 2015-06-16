@@ -1,8 +1,8 @@
-require('angular/angular')
+require('angular/angular');
 require('angular-route/angular-route');
 require('angular-ui-router/build/angular-ui-router');
 require('jquery/dist/jquery');
-// require('bootstrap/dist/js/bootstrap');
+// require('bootstrap/dist/js/ bootstrap');
 
 // Create your app
 var app = angular.module("AdvJS", ['ui.router', 'ngRoute']);
