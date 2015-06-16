@@ -4,31 +4,35 @@
    <link rel="stylesheet" href="../css/app.css"/>
    <link rel="stylesheet" href="../css/bootstrap.css"/>
    <link rel="stylesheet" href="../css/bootstrap-theme.css"/>
+
  </head>
- <body class="container" ng-controller="GameController as console">
+ <body class="container" ng-controller="GamesController as console">
  	 <h2>Add Game</h2>
  	 <div ng-controller="UserController as currentUser">
- 	 	<div class="input-group">
- 	 	  <span for="gameType">Type of game: </span>
- 	  	  <select id="gameType" class="form-control" ng-model="newGame.layout">
-		    <option ng-repeat="type in console.gameTypes">{{ type }}</option>
-		  </select>
-	  	</div><br/>
- 	 	<div class="input-group">
- 	 	  <span for="maxPlayers">Maximum amount of players: </span>
-		  <input class="form-control" id="maxPlayers" ng-model="newGame.maxPlayers" type="number" min="1" max="35" value="6"/>
-	  	</div><br/>
-	  	<button class="btn btn-success" ng-click="console.addGame(newGame, currentUser.user)">Add game</button>
+ 	 	<form>
+	 	 	<div class="input-group">
+	 	 	  <span for="gameType">Type of game: </span>
+	 	  	  <select id="gameType" class="form-control" ng-model="newGame.layout">
+			    <option ng-repeat="type in console.gameTypes">{{ type }}</option>
+			  </select>
+		  	</div><br/>
+	 	 	<div class="input-group">
+	 	 	  <span for="maxPlayers">Maximum amount of players: </span>
+			  <input class="form-control" id="maxPlayers" ng-model="newGame.maxPlayers" type="number" min="1" max="35" value="6" required>
+		  	</div><br/>
+		  	<button class="btn btn-success" ng-click="console.addGame(newGame, currentUser.user)">Add game</button>
+	  	</form>
  	 </div>
 	 <h2>Current Games</h2>
 	 <div ng-controller="UserController as currentUser" class="list-group">
 	 	<div class="list-group-item" ng-repeat="game in console.games | orderBy:'createdOn'">
 		 	<div>
-			 	<h3 class="list-group-item-heading">{{ game.layout }}</h3>
+			 	<h3 class="list-group-item-heading">{{ game.gameTemplate.id }}</h3>
 			 	<div style="float:right;">
 					<button ng-show="game.state == 'open' && game.players.length != game.maxPlayers" class="btn btn-success btn-lg" ng-click="console.addPlayer(game, currentUser.user)">Join</button>
 					<button ng-show="game.state == 'playing'" class="btn btn-warning btn-lg">Playing</button>
 				 	<button ng-show="game.state == 'finished'" class="btn btn-danger btn-lg">Finished</button>
+				 	<button class="btn btn-info btn-lg"><a ng-href="http://localhost:8080/dist/views/game/{{game.id}}">Watch</a></button>
 			 	</div>
 			 	<span> Created on: {{ game.createdOn }}</span><span ng-show="game.startedOn">, Started on: {{ game.startedOn }}</span><span ng-show="game.endedOn">, Ended on: {{ game.endedOn }}</span><br/>
 			 	<span> Created By: {{ game.createdBy.name }}</span><br/>
@@ -37,7 +41,6 @@
 		</div>
 	</div>
    <script src="../js/app.js"></script>
-   <script src="../js/jquery-v1.11.2.min.js"></script>
    <script src="../js/bootstrap.js"></script>
  </body>
 </html>
