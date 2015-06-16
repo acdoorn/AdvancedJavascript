@@ -1,22 +1,23 @@
 require('angular/angular');
+require('angular-route/angular-route');
 require('angular-ui-router/build/angular-ui-router');
 require('jquery/dist/jquery');
-// require('bootstrap/dist/js/bootstrap');
+// require('bootstrap/dist/js/ bootstrap');
 
 // Create your app
-var app = angular.module("AdvJS", ['ui.router']);
+var app = angular.module("AdvJS", ['ui.router', 'ngRoute']);
 
 //Auth
 
 // //Factories
 // var urlFactory = require("./factories/urlFactory");
 // var loginFactory = require("./factories/loginFactory");
-// var gamesFactory = require("./factories/gamesFactory");
+var gameFactory = require("./../factories/gameFactory");
 
 // var gameService = require("./services/gameService");
 
 // app.factory("urlFactory", urlFactory);
-// app.factory("gamesFactory", gamesFactory);
+app.factory("gameFactory", gameFactory);
 // app.factory("loginFactory", loginFactory);
 
 // app.service("gameService", gameService);
@@ -29,7 +30,7 @@ var userController = require("./../controllers/UserController");
 // var callbackController = require("./controllers/CallbackController");
 
 app.controller("GamesController", gamesController);
-app.controller("GameController", gameController);
+app.controller("GameController", ['$scope','$http','$routeParams', gameController]);
 // app.controller("loginController", loginController);
 app.controller("UserController", userController);
 // app.controller("callbackController", callbackController)
@@ -49,12 +50,12 @@ app.config(function($stateProvider, $httpProvider, $urlRouterProvider) {
     .state('gameList', {
       url: "/games",
       templateUrl: "../views/gameList.html",
-      controller: gamesController
+      controller: "GamesController as console"
     })
     .state('game', {
-      url: "/game",
+      url: "/games/:gameId",
       templateUrl: "../views/game.html",
-      controller: gameController
+      controller: "GameController as console"
     })
 });
 
