@@ -6,7 +6,7 @@
    <link rel="stylesheet" href="../css/bootstrap-theme.css"/>
 
  </head>
- <body class="container" ng-controller="GamesController as console">
+ <body class="container">
  	 <h2>Add Game</h2>
  	 <div ng-controller="UserController as currentUser">
  	 	<form>
@@ -32,7 +32,7 @@
 					<button ng-show="game.state == 'open' && game.players.length != game.maxPlayers" class="btn btn-success btn-lg" ng-click="console.addPlayer(game, currentUser.user)">Join</button>
 					<button ng-show="game.state == 'playing'" class="btn btn-warning btn-lg">Playing</button>
 				 	<button ng-show="game.state == 'finished'" class="btn btn-danger btn-lg">Finished</button>
-				 	<button class="btn btn-info btn-lg"><a ng-href="http://localhost:8080/dist/views/game/{{game.id}}">Watch</a></button>
+				 	<button class="btn btn-info btn-lg"><a ng-href="http://localhost:8080/dist/views/#/games/{{game.id}}">Watch</a></button>
 			 	</div>
 			 	<span> Created on: {{ game.createdOn }}</span><span ng-show="game.startedOn">, Started on: {{ game.startedOn }}</span><span ng-show="game.endedOn">, Ended on: {{ game.endedOn }}</span><br/>
 			 	<span> Created By: {{ game.createdBy.name }}</span><br/>

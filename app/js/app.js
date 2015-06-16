@@ -1,4 +1,4 @@
-require('angular/angular');
+require('angular/angular')
 require('angular-ui-router/build/angular-ui-router');
 require('jquery/dist/jquery');
 // require('bootstrap/dist/js/bootstrap');
@@ -49,12 +49,17 @@ app.config(function($stateProvider, $httpProvider, $urlRouterProvider) {
     .state('gameList', {
       url: "/games",
       templateUrl: "../views/gameList.html",
-      controller: gamesController
+      controller: "GamesController as console"
     })
     .state('game', {
-      url: "/game",
+      url: "/games/:gameId",
       templateUrl: "../views/game.html",
-      controller: gameController
+      controller: "GameController as console",
+      resolve: {
+        gameId: function(){
+          return parseInt($route.current.params.id);
+        }
+      }
     })
 });
 
