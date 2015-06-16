@@ -1,9 +1,12 @@
 // GameController.js
-module.exports = function($scope, $http) {
+
+'use strict';
+module.exports = function($scope, $http, $routeParams) {
 	$scope.loading = true;
     $scope.editMode = false;
     $scope.this = this;
-    alert($scope.this.gameId);
+    $routeParams.gameId = $scope.this.gameId;
+    // alert($scope.this.gameId);
     $scope.this.gameId = '5541fc5b1872631100678bb4';
 
 	$http.get('https://mahjongmayhem.herokuapp.com/games/'+$scope.this.gameId+'/tiles/').success(function (data) {
