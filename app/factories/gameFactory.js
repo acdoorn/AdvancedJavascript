@@ -29,7 +29,7 @@ module.exports = function($http, urlFactory) {
     };
 
     gamesFactory.startGame = function(game_id, callBack){
-        return $http.post(urlFactory + urlBase + "/" + game_id + "/start").
+        return $http.post(urlFactory + urlBase + "/" + game_id + "/").
         success(function(data, status, headers, config){
             callBack(data);
         }).error(function(data, status, headers, config){
@@ -38,7 +38,7 @@ module.exports = function($http, urlFactory) {
     }
 
     gamesFactory.joinGame = function(game_id, callBack){
-        return $http.post(urlFactory + urlBase + "/" + game_id + "/Players").
+        return $http.post(urlFactory + urlBase + "/" + game_id + "/players").
         success(function(data, status, headers, config){
             callBack(data);
         }).error(function(data, status, headers, config){
@@ -57,7 +57,7 @@ module.exports = function($http, urlFactory) {
     };
 
     gamesFactory.getTiles = function (id, callBack) {
-        return $http.get(urlFactory + urlBase + '/' + id + '/Tiles').
+        return $http.get(urlFactory + urlBase + '/' + id + '/tiles').
 		success(function(data, status, headers, config) {
             
 			callBack(data);
@@ -68,7 +68,7 @@ module.exports = function($http, urlFactory) {
     };
 
     gamesFactory.getMatchedTiles = function (id, callBack) {
-        return $http.get(urlFactory + urlBase + '/' + id + '/Tiles/?matched=true').
+        return $http.get(urlFactory + urlBase + '/' + id + '/tiles/?matched=true').
         success(function(data, status, headers, config) {
             callBack(data);
         }).
@@ -78,7 +78,7 @@ module.exports = function($http, urlFactory) {
     };
 
     gamesFactory.addMatch = function (idGame, idTile1, idTile2, callBack) {
-        return $http.post(urlFactory + urlBase + '/' + idGame + '/Tiles/matches', {tile1Id: idTile1, tile2Id: idTile2}).
+        return $http.post(urlFactory + urlBase + '/' + idGame + '/tiles/matches', {tile1Id: idTile1, tile2Id: idTile2}).
 		success(function(data, status, headers, config) {
 			callBack(data);
 		}).
