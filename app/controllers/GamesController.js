@@ -1,56 +1,70 @@
 // GamesController.js
-module.exports = function($scope, $http) {
-	$scope.loading = true;
-    $scope.editMode = false;
-    $scope.this = this;
-	this.gameTypes = ["Shanghai","Snake","Ox","Ram","Dragon","Rooster","Monkey"];
-    
-	$http.get('https://mahjongmayhem.herokuapp.com/games/').success(function (data) {
-	    $scope.this.games = data;
-		$scope.loading = false;
-	}).error(function () {
-        alert("An Error has occured while loading posts!");
-        $scope.loading = false;
-    });
- 
-    $scope.toggleEdit = function() {
-        $scope.editMode = !$scope.editMode;
-    };
- 
-    $scope.save = function() {
-        $http.pull('/api/posts/', $scope.posts).success(function (data) {
-            alert("Saved Successfully!!");
-        }).error(function (data) {
-            $scope.error = "An Error has occured while Saving posts! " + data;
-            $scope.loading = false;
-        });
-    };
+module.exports = function($scope, $http, GameFactory, AuthFactory) {
 
-	this.addPlayer = function(game, player) {
-		game.players[game.players.length] = player;
+	$scope.pageSize = 10; // Aantal item op pagina
+	$scope.pageIndex = 1; // Huidige pagina
+	$scope.totalGames = 1; // Aantal games
+	$scope.maxSize = 5; // Maximaal aantal paginas laten zien in pagination
+
+	$scope.filters = GameFactory.getFilters(AuthFactory.getUsername());
+	$scope.selectedFilter = $scope.filters[0];
+
+	getGames();
+
+	$scope.changeFilter = function(){
+		getGames($scope.selectedFilter.queryName, $scope.selectedFilter.queryValue);
 	}
 
-	this.addGame = function(game, player) {
-		if(game != null) {
-			var time = new Date();
-			layout = game.layout;
-			template = {
-				_id: layout,
-				__v: 0,
-				id: layout
-			}
-			this.games[this.games.length] = 
-			{
-			 gameTemplate: template,
-			 createdOn: time.toString(), 
-			 startedOn: "",
-			 endedOn: "",
-			 createdBy: player,
-			 minPlayers: 1,
-			 maxPlayers: game.maxPlayers,
-			 players: [player],
-			 state: "open"
-			}
-		}
+	$scope.isLoggedIn = function(){
+		return AuthFactory.isLoggedIn();
 	}
+
+	$scope.getUsername = function(){
+    	return AuthFactory.getUsername();
+    }
+
+	$scope.joinGame = function(gameId){
+		GameFactory.postGamePlayers(gameId).success(function (_response){
+			getGames();
+		});
+	}
+
+	$scope.startGame = function(gameId){
+		GameFactory.postGameStart(gameId)
+		.success(function (response){
+			alert("Game is started");
+			getGames();
+
+		})
+		.error(function (response){
+			alert(response.message);
+		});
+	}
+
+	$scope.setPage = function (pageNo) {
+		$scope.currentPage = pageNo;
+	};
+
+	$scope.pageChanged = function() {
+		getGames($scope.selectedFilter.queryName, $scope.selectedFilter.queryValue);
+	};
+
+	function getGames(queryName, queryValue){
+		GameFactory.getGames($scope.pageSize, $scope.pageIndex, queryName, queryValue).success(function (response, status, headers, config){
+	        $scope.games = response;
+	        $scope.totalGames = headers('X-Total-Count');
+	    });
+    }
+
+	$scope.postGame = function(game){
+		GameFactory.postGame(game)
+		.success(function (response){
+	        alert("Game is saved");
+	        return true;
+	    })
+	    .error(function (response){
+	        alert("Something went wrong..");
+	        return false;
+	    })
+	};
 }

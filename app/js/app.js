@@ -1,15 +1,22 @@
 require('angular/angular');
-require('angular-route/angular-route');
+require('angular-route/angular-route')
 require('angular-ui-router/build/angular-ui-router');
 
+var ngStorage = require('ngstorage/ngStorage');
+var uiBootstrap = require('angular-bootstrap');
+
 // Create your app
-var app = angular.module("AdvJS", ['ui.router', 'ngRoute']);
+var app = angular.module("AdvJS", ['ui.router', 'ngStorage', 'ui.bootstrap', 'ngRoute']);
 
 //Auth
 
-// //Factory
-var gameFactory = require("./../factories/gameFactory");
-app.factory("gameFactory", gameFactory);
+// //Factories
+var gameFactory = require("./../factories/GameFactory");
+var gameTemplateFactory = require('./../factories/GameTemplateFactory.js');
+var authFactory = require('./../factories/AuthFactory.js');
+app.factory("GameFactory", gameFactory);
+app.factory('GameTemplateFactory', gameTemplateFactory);
+app.factory('AuthFactory', authFactory);
 
 //Controllers
 var gamesController = require("./../controllers/GamesController");
@@ -17,12 +24,18 @@ var gameController = require("./../controllers/GameController");
 var userController = require("./../controllers/UserController");
 
 app.controller("GamesController", gamesController);
-app.controller("GameController", ['$scope','$http','$routeParams', gameController]);
+app.controller("GameController", gameController);
 app.controller("UserController", userController);
 
-//Models
+//Directives
+var tileDirective = require('./../directives/TileDirective.js');
 
-app.config(function($stateProvider, $httpProvider, $urlRouterProvider) {
+app.directive('tile', tileDirective);
+
+
+app.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
+
+  // $locationProvider.html5Mode(true);
 
   $urlRouterProvider.otherwise("/");
 

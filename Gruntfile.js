@@ -12,16 +12,16 @@ module.exports = function(grunt) {
      }
  	},
    copy: {
-   	 all: {
+    all: {
        // This copies all the html and css into the dist/ folder
        expand: true,
        cwd: 'app/',
-       src: ['views/*.html', 'css/*.*', 'js/*.*', 'fonts/*.*', 'controllers/*.*', 'img/*.*'],
+       src: ['**/*.html', 'assets/**/*.map',  'assets/**/*.*', '**/*.{png,jpg,svg}'],
        dest: 'dist/',
      }
-   },
+    },
    watch: {
-   	 js: {
+     js: {
        files: "app/**/*.js",
        tasks: "browserify"
      },
@@ -30,8 +30,12 @@ module.exports = function(grunt) {
        tasks: 'copy'
      },
      css: {
-       files: 'app/**/*.css',
+       files: 'assets/**/*.css',
        tasks: 'copy'
+     },
+     css: {
+       files: 'app/**/*/.scss',
+       tasks: 'sass'
      }
    }
  });

@@ -1,46 +1,56 @@
 <html lang="en" ng-app="AdvJS">
  <head>
+ <base href="/dist/views/">
    <!-- The css is copied into dist/css/app.css by the copy task -->
-   <link rel="stylesheet" href="../css/app.css"/>
-   <link rel="stylesheet" href="../css/bootstrap.css"/>
-   <link rel="stylesheet" href="../css/bootstrap-theme.css"/>
 
  </head>
- <body class="container">
- 	 <h2>Add Game</h2>
- 	 <div ng-controller="UserController as currentUser">
- 	 	<form>
-	 	 	<div class="input-group">
-	 	 	  <span for="gameType">Type of game: </span>
-	 	  	  <select id="gameType" class="form-control" ng-model="newGame.layout">
-			    <option ng-repeat="type in console.gameTypes">{{ type }}</option>
-			  </select>
-		  	</div><br/>
-	 	 	<div class="input-group">
-	 	 	  <span for="maxPlayers">Maximum amount of players: </span>
-			  <input class="form-control" id="maxPlayers" ng-model="newGame.maxPlayers" type="number" min="1" max="35" value="6" required>
-		  	</div><br/>
-		  	<button class="btn btn-success" ng-click="console.addGame(newGame, currentUser.user)">Add game</button>
-	  	</form>
+ <body class="container" ng-controller="UserController" >
+ 	 <div class="row">
+	 	 <div class="col-md-6 col-md-offset-3" ng-show="isLoggedIn()">
+		 	<h2>Add Game</h2>
+			<form name="addForm" ng-submit="postGame(new)">
+				<div class="form-group">
+					<label for="name">Type</label>
+
+					<select class="form-control" id="templateName" name="templateName" ng-model="new.templateName" required>
+						<option>Shanghai</option>
+						<option>Snake</option>
+						<option>Ox</option>
+						<option>Ram</option>
+						<option>Dragon</option>
+						<option>Rooster</option>
+						<option>Monkey</option>
+					</select>
+
+				</div>
+				<div class="form-group">
+					<label for="genre">Min players</label>
+					<input min="1" max="32" type="number" class="form-control" id="minPlayers" placeholder="Min players" ng-model="new.minPlayers">
+				</div>
+				<div class="form-group">
+					<label for="genre">Max players</label>
+					<input min="1" max="32" type="number" class="form-control" id="maxPlayers" placeholder="Max players" ng-model="new.maxPlayers">
+				</div>
+				<input type="submit" class="btn btn-success" value="Add game" />
+			</form>
+	 	 </div>
  	 </div>
-	 <h2>Current Games</h2>
-	 <div ng-controller="UserController as currentUser" class="list-group">
-	 	<div class="list-group-item" ng-repeat="game in console.games | orderBy:'createdOn'">
-		 	<div>
-			 	<h3 class="list-group-item-heading">{{ game.gameTemplate.id }}</h3>
-			 	<div style="float:right;">
-					<button ng-show="game.state == 'open' && game.players.length != game.maxPlayers" class="btn btn-success btn-lg" ng-click="console.addPlayer(game, currentUser.user)">Join</button>
-					<button ng-show="game.state == 'playing'" class="btn btn-warning btn-lg">Playing</button>
-				 	<button ng-show="game.state == 'finished'" class="btn btn-danger btn-lg">Finished</button>
-				 	<button class="btn btn-info btn-lg"><a ng-href="http://localhost:8080/dist/views/#/games/{{game.id}}">Watch</a></button>
-			 	</div>
-			 	<span> Created on: {{ game.createdOn }}</span><span ng-show="game.startedOn">, Started on: {{ game.startedOn }}</span><span ng-show="game.endedOn">, Ended on: {{ game.endedOn }}</span><br/>
-			 	<span> Created By: {{ game.createdBy.name }}</span><br/>
-			 	<span> Players: {{ game.players.length }}/{{ game.maxPlayers }}</span>
+
+	 <div class="list-group">
+		<h2>Current Games</h2>
+	 	<div class="list-group-item" ng-repeat="game in games | orderBy:'game.createdOn'">
+		 	<h3 class="list-group-item-heading">{{ game.gameTemplate.id }}</h3>
+		 	<div style="float:right;">
+				<button ng-show="game.state == 'open' && game.players.length != game.maxPlayers && isLoggedIn()" class="btn btn-success btn-lg" ng-click="joinGame(game.id)">Join</button>
+				<button ng-show="game.state == 'playing'" class="btn btn-warning btn-lg">Playing</button>
+			 	<button ng-show="game.state == 'finished'" class="btn btn-danger btn-lg">Finished</button>
+			 	<button ng-show="game.state == 'playing' || game.state == finished" class="btn btn-info btn-lg"><a ng-href="http://localhost:8080/dist/views/#/games/{{game.id}}">Watch</a></button>
+			 	<button ng-show="game.state == 'open' && game.players.length >= game.minPlayers" class="btn btn-info btn-lg"><a ng-click="startGame(game.id)" ng-href="http://localhost:8080/dist/views/#/games/">Start</a></button>
 		 	</div>
-		</div>
+		 	<span> Created on: {{ game.createdOn }}</span><span ng-show="game.startedOn">, Started on: {{ game.startedOn }}</span><span ng-show="game.endedOn">, Ended on: {{ game.endedOn }}</span><br/>
+		 	<span> Created By: {{ game.createdBy.name }}</span><br/>
+		 	<span> Players: {{ game.players.length }}/{{ game.maxPlayers }}</span>
+	 	</div>
 	</div>
-   <script src="../js/app.js"></script>
-   <script src="../js/bootstrap.js"></script>
  </body>
 </html>

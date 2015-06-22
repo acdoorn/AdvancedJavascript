@@ -1,91 +1,204 @@
-module.exports = function($http, urlFactory) {
+//GameFactory.js
+module.exports = function($http){
+    var _ = require('../assets/js/underscore');
+    var factory = {};
 
-    var urlBase = '/Games';
-    var gamesFactory = {};
+    var base_url = 'https://mahjongmayhem.herokuapp.com/games/';
 
-    gamesFactory.timeout = function(callBack){
-        window.setTimeout(function(){
-            callBack();
-        }, 5000)
-    }
+    // Retourneert een collectie van games in de volgende structuur
+    factory.getGames = function(pageSize, pageIndex, name, value){
+        pageIndex = pageIndex-1;
 
-    gamesFactory.getGames = function (numberOfGames, setProgressBar, callBack) {
-        setProgressBar("Loading games", 50);
-        return $http.get(urlFactory + urlBase + "?pageSize=" + numberOfGames).
-        success(function(data, status, headers, config){
-        	callBack(data);
-        }).error(function(data, status, headers, config){
-        	console.log(data);
-        });
-    };
-
-    gamesFactory.createGame = function (templateName, minPlayers, maxPlayers, callBack) {
-        return $http.post(urlFactory + urlBase, {templateName: templateName,  minPlayers: minPlayers, maxPlayers: maxPlayers}).
-        success(function(data, status, headers, config){
-        	callBack(data);
-        }).error(function(data, status, headers, config){
-        	console.log(data);
-        });
-    };
-
-    gamesFactory.startGame = function(game_id, callBack){
-        return $http.post(urlFactory + urlBase + "/" + game_id + "/").
-        success(function(data, status, headers, config){
-            callBack(data);
-        }).error(function(data, status, headers, config){
-            console.log(data);
-        });
-    }
-
-    gamesFactory.joinGame = function(game_id, callBack){
-        return $http.post(urlFactory + urlBase + "/" + game_id + "/players").
-        success(function(data, status, headers, config){
-            callBack(data);
-        }).error(function(data, status, headers, config){
-            console.log(data);
-        });
-    }
-
-    gamesFactory.getGame = function (id, callBack) {
-        return $http.get(urlFactory + urlBase + '/' + id).
-        success(function(data, status, headers, config) {
-            callBack(data);
-        }).
-        error(function(data, status, headers, config){
-            console.log(data);
-        });
-    };
-
-    gamesFactory.getTiles = function (id, callBack) {
-        return $http.get(urlFactory + urlBase + '/' + id + '/tiles').
-		success(function(data, status, headers, config) {
+        if(name && value){
             
-			callBack(data);
-		}).
-		error(function(data, status, headers, config){
-			console.log(data);
-		});
-    };
+            return $http.get(base_url + '?' + name + '=' + value + '&pageSize=' + pageSize + '&pageIndex=' + pageIndex);
+        }
+        else {
+            return $http.get(base_url + '?pageSize=' + pageSize + '&pageIndex=' + pageIndex);
+        }
+    }
 
-    gamesFactory.getMatchedTiles = function (id, callBack) {
-        return $http.get(urlFactory + urlBase + '/' + id + '/tiles/?matched=true').
-        success(function(data, status, headers, config) {
-            callBack(data);
-        }).
-        error(function(data, status, headers, config){
-            console.log(data);
+    // Voegt een game toe
+    factory.postGame = function(game){
+        return $http.post(base_url, game);
+    }
+
+    // Geeft een object terug zoals gegeven in /Games
+    factory.getGame = function(id){
+        return $http.get(base_url + id);
+    }
+
+    // Post een leeg object om een game te starten.
+    factory.postGameStart = function(id){
+        return $http.post(base_url + id + '/start');
+    }
+
+    // Geeft een collectie van players terug in deze game. (Zie de players in de GET van /Games)
+    factory.getGamePlayers = function(id){
+        return $http.get(base_url + id + '/players');
+    }
+
+    // Join een game. Geef geen body mee (wordt aan de hand van de login gedaan)
+    factory.postGamePlayers = function(id){
+        return $http.post(base_url + id + '/players');
+    }
+
+    // Geeft een array van tegels terug die in die game zitten
+    factory.getGameTiles = function(id, matched){
+        _matched = matched ? 'true' : 'false';
+        return $http.get(base_url + id + '/tiles?matched=' + _matched);
+    }
+
+    // Geeft een array van tegels terug die in die game zitten
+    factory.getGameTilesMatches = function(id){
+        return $http.get(base_url + id + '/tiles/matches');
+    }
+
+    factory.postGameTilesMatches = function(id, tiles){
+        return $http.post(base_url + id + '/tiles/matches', tiles);
+    }
+
+    factory.getFilters = function(username){
+        return [
+        {
+            name: "All games",
+            queryName: "",
+            queryValue: ""
+        },
+        {
+            name: "Active games",
+            queryName: "state",
+            queryValue: "playing"
+        },
+        {
+            name: "My games",
+            queryName: "createdBy",
+            queryValue: username
+        },
+        {
+            name: "Participated by me",
+            queryName: "player",
+            queryValue: username
+        }
+    ]
+    }
+
+    factory.compareTiles = function(tile1, tile2){
+        if(tile1.tile.suit == tile2.tile.suit){
+
+            if(tile1.tile.matchesWholeSuit == false || tile2.tile.matchesWholeSuit == false){
+                if(tile1.tile.name == tile2.tile.name){
+                    return true;
+                } else {
+                    return false;
+                }
+            } else {
+                return true;
+            }   
+        } else {
+            return false;
+        }
+    }
+
+    factory.isTileSelectable = function(tiles, tile){
+        var x = tile.xPos;
+        var y = tile.yPos;
+        var z = tile.zPos;
+
+        if(blockedByTileOnLeftOrRight(tiles, tile) || blockedByTileOnTop(tiles, tile) || blockedByTileAboveOrBelow(tiles, tile)){
+            return false;
+        }
+
+        return true;
+    }
+
+    // Returns alle tegels die selecteerbaar zijn
+    factory.tilesSelectable = function(tiles){
+        var tilesSelectable = [];
+
+        angular.forEach(tiles, function(tile) {
+            if(factory.isTileSelectable(tiles, tile)){
+                tilesSelectable.push(tile);
+            }
         });
-    };
+        return tilesSelectable;
+    }
 
-    gamesFactory.addMatch = function (idGame, idTile1, idTile2, callBack) {
-        return $http.post(urlFactory + urlBase + '/' + idGame + '/tiles/matches', {tile1Id: idTile1, tile2Id: idTile2}).
-		success(function(data, status, headers, config) {
-			callBack(data);
-		}).
-		error(function(data, status, headers, config){
-			console.log(data);
-		});
-    };
-	
-    return gamesFactory;
+    // Controleert of er nog matches beschikbaar zijn in game
+    factory.isMatchAvailable = function(tiles){
+        tilesSelectable = factory.tilesSelectable(tiles);
+
+        for (i = 0; i < tilesSelectable.length; i++) { 
+            for (j = 0; j < tilesSelectable.length; j++) { 
+                if((tilesSelectable[i]._id != tilesSelectable[j]._id) &&
+                    (factory.compareTiles(tilesSelectable[i], tilesSelectable[j])))
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    function blockedByTileOnLeftOrRight(tiles, tile){
+        var x = tile.xPos;
+        var y = tile.yPos;
+        var z = tile.zPos;
+
+        if(    ((_.findWhere(tiles, {xPos: x + 2, yPos: y, zPos: z}))
+            || (_.findWhere(tiles, {xPos: x + 2, yPos: y + 1, zPos: z}))
+            || (_.findWhere(tiles, {xPos: x + 2, yPos: y - 1, zPos: z})))
+            && ((_.findWhere(tiles, {xPos: x - 2, yPos: y, zPos: z}))
+            || (_.findWhere(tiles, {xPos: x - 2, yPos: y + 1, zPos: z}))
+            || (_.findWhere(tiles, {xPos: x - 2, yPos: y - 1, zPos: z})))
+         ){
+            console.log('Blocked by tile on left or right');
+            return true;
+        }
+
+        return false;
+    }
+
+    function blockedByTileAboveOrBelow(tiles, tile){
+        var x = tile.xPos;
+        var y = tile.yPos;
+        var z = tile.zPos;
+
+        if(    ((_.findWhere(tiles, {xPos: x, yPos: y + 2, zPos: z}))
+            || (_.findWhere(tiles, {xPos: x + 1, yPos: y + 2, zPos: z}))
+            || (_.findWhere(tiles, {xPos: x - 1, yPos: y + 2, zPos: z})))
+            && ((_.findWhere(tiles, {xPos: x , yPos: y - 2, zPos: z}))
+            || (_.findWhere(tiles, {xPos: x + 1, yPos: y - 2, zPos: z}))
+            || (_.findWhere(tiles, {xPos: x - 1, yPos: y - 2, zPos: z})))
+         ){
+            console.log('Blocked by tile above or below');
+            return true;
+        }
+
+        return false;
+    }
+
+    function blockedByTileOnTop(tiles, tile){
+        var x = tile.xPos;
+        var y = tile.yPos;
+        var z = tile.zPos + 1;
+
+        if(    (_.findWhere(tiles, {xPos: x, yPos: y, zPos: z})) // top
+            || (_.findWhere(tiles, {xPos: x + 1, yPos: y, zPos: z})) // right half
+            || (_.findWhere(tiles, {xPos: x - 1, yPos: y, zPos: z})) // left half
+            || (_.findWhere(tiles, {xPos: x, yPos: y + 1, zPos: z})) // bottom half
+            || (_.findWhere(tiles, {xPos: x, yPos: y - 1, zPos: z})) // top half
+            || (_.findWhere(tiles, {xPos: x + 1, yPos: y + 1, zPos: z})) // bottom right corner
+            || (_.findWhere(tiles, {xPos: x + 1, yPos: y - 1, zPos: z})) // top right corner
+            || (_.findWhere(tiles, {xPos: x - 1, yPos: y + 1, zPos: z})) // bottom left cornor
+            || (_.findWhere(tiles, {xPos: x - 1, yPos: y - 1, zPos: z})) // top left cornor
+        ){
+            console.log('Blocked by tile on top');
+            return true;
+        }
+
+        return false;
+    }
+
+    return factory;
 };
