@@ -3,7 +3,7 @@
 		<div class="col-md-4">
 			<div class="board">
 				<h3>Gameboard</h3>
-				<tile ng-class="selectedTile === tile ? 'selected' : ''" ng-click="matchTile(tile)" ng-repeat="tile in tiles"></tile>
+				<tile ng-class="selectedTile === tile ? 'selected' : ''" ng-click="!isLoggedIn() || !isPlaying() || matchTile(tile)" ng-repeat="tile in tiles"></tile>
 			</div>
 		</div>
 		<div class="col-md-4">

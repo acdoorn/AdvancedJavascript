@@ -52,19 +52,22 @@ module.exports = function($scope, $http, $stateParams, GameFactory, GameTemplate
 
                     GameFactory.postGameTilesMatches($stateParams.gameId, {tile1Id: $scope.selectedTile._id, tile2Id: tile._id})
                         .success(function(response){
-                            alert("Match! \:\)");
+                            alert("Twee tegels gematched!");
                             console.log("MATCH!");
                             getGameTiles(false);
                             getGameTiles(true);
+                            if(!GameFactory.isMatchAvailable) {
+                                alert("Geen matches meer mogelijk!");
+                            }
                         })
                         .error(function(response){
-                            alert("Geen match, helaas \:\(");
+                            alert("Dit is geen goedgekeurde match");
                             console.log(response.message);
                         });
 
                 }
                 else {
-                    alert("Geen match, helaas \:\(");
+                    alert("Dit is geen goedgekeurde match");
                 }
 
                 $scope.selectedTile = null;
@@ -115,9 +118,9 @@ module.exports = function($scope, $http, $stateParams, GameFactory, GameTemplate
 
     $scope.isMatchAvailable = function(){
         if(GameFactory.isMatchAvailable($scope.tiles)){
-            alert('There are some matches left');
+            alert('Er is nog minstens 1 match over');
         } else {
-            alert('No matches possible');
+            alert('Geen matches meer mogelijk');
         }
     }
 

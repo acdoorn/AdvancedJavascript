@@ -58,31 +58,6 @@ module.exports = function($http){
         return $http.post(base_url + id + '/tiles/matches', tiles);
     }
 
-    factory.getFilters = function(username){
-        return [
-        {
-            name: "All games",
-            queryName: "",
-            queryValue: ""
-        },
-        {
-            name: "Active games",
-            queryName: "state",
-            queryValue: "playing"
-        },
-        {
-            name: "My games",
-            queryName: "createdBy",
-            queryValue: username
-        },
-        {
-            name: "Participated by me",
-            queryName: "player",
-            queryValue: username
-        }
-    ]
-    }
-
     factory.compareTiles = function(tile1, tile2){
         if(tile1.tile.suit == tile2.tile.suit){
 
@@ -124,7 +99,6 @@ module.exports = function($http){
         return tilesSelectable;
     }
 
-    // Controleert of er nog matches beschikbaar zijn in game
     factory.isMatchAvailable = function(tiles){
         tilesSelectable = factory.tilesSelectable(tiles);
 

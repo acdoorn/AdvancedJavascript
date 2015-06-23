@@ -33,13 +33,13 @@ describe("GameController", function() {
 		expect(newGames).to.equal((oldGames+1));
 	});
 
-	it.only('should have 7 different game types', function(){
-		var gameTypes = gamesController.gameTypes;
-		console.log(gameTypes.length + " gametypes");
-		console.log("Gametypes: " + gameTypes);
+	// it.only('should have 7 different game types', function(){
+	// 	var gameTypes = gamesController.gameTypes;
+	// 	console.log(gameTypes.length + " gametypes");
+	// 	console.log("Gametypes: " + gameTypes);
 
-		expect(gameTypes.length).to.equal(7);
-	});
+	// 	expect(gameTypes.length).to.equal(7);
+	// });
 
 	it('should add a player to a game', function(){
 		

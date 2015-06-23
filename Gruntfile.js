@@ -30,12 +30,8 @@ module.exports = function(grunt) {
        tasks: 'copy'
      },
      css: {
-       files: 'assets/**/*.css',
+       files: 'app/assets/**/*.css',
        tasks: 'copy'
-     },
-     css: {
-       files: 'app/**/*/.scss',
-       tasks: 'sass'
      }
    }
  });

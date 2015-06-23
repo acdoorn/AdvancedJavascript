@@ -1,5 +1,5 @@
 //AuthFactory.js
-module.exports = function($http, $routeParams, $localStorage){
+module.exports = function($http, $localStorage){
 	var factory = {};
 
     factory.username = $localStorage.username;
@@ -8,7 +8,6 @@ module.exports = function($http, $routeParams, $localStorage){
     $http.defaults.headers.common['x-username'] = $localStorage.username;
     $http.defaults.headers.common['x-token'] = $localStorage.token;
 
-    // Zet de headers, zodat je gegevens van server kan opvragen
 	factory.setCredentials = function(username, token) {
 
 		$localStorage.username = username;
@@ -21,7 +20,6 @@ module.exports = function($http, $routeParams, $localStorage){
 
     };
 
-    // Gooit alle gegevens weg
     factory.clearCredentials = function() {
 
         delete $localStorage.username;
@@ -33,7 +31,6 @@ module.exports = function($http, $routeParams, $localStorage){
         return true;
     };
 
-    // Controleert of gebruiker is ingelogd
     factory.isLoggedIn = function() {
         if($localStorage.username && $localStorage.token){
             return true;
@@ -41,7 +38,6 @@ module.exports = function($http, $routeParams, $localStorage){
         return false;
     }
 
-    // Geeft gebruikersnaam van ingelogde gebruiker terug
     factory.getUsername = function() {
         return $localStorage.username;
     }

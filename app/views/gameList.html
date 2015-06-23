@@ -4,8 +4,8 @@
    <!-- The css is copied into dist/css/app.css by the copy task -->
 
  </head>
- <body class="container" ng-controller="UserController" >
- 	 <div class="row">
+ <body ng-controller="UserController" >
+ 	 <div class="container">
 	 	 <div class="col-md-6 col-md-offset-3" ng-show="isLoggedIn()">
 		 	<h2>Add Game</h2>
 			<form name="addForm" ng-submit="postGame(new)">
@@ -36,21 +36,23 @@
 	 	 </div>
  	 </div>
 
-	 <div class="list-group">
-		<h2>Current Games</h2>
-	 	<div class="list-group-item" ng-repeat="game in games | orderBy:'game.createdOn'">
-		 	<h3 class="list-group-item-heading">{{ game.gameTemplate.id }}</h3>
-		 	<div style="float:right;">
-				<button ng-show="game.state == 'open' && game.players.length != game.maxPlayers && isLoggedIn()" class="btn btn-success btn-lg" ng-click="joinGame(game.id)">Join</button>
-				<button ng-show="game.state == 'playing'" class="btn btn-warning btn-lg">Playing</button>
-			 	<button ng-show="game.state == 'finished'" class="btn btn-danger btn-lg">Finished</button>
-			 	<button ng-show="game.state == 'playing' || game.state == finished" class="btn btn-info btn-lg"><a ng-href="http://localhost:8080/dist/views/#/games/{{game.id}}">Watch</a></button>
-			 	<button ng-show="game.state == 'open' && game.players.length >= game.minPlayers" class="btn btn-info btn-lg"><a ng-click="startGame(game.id)" ng-href="http://localhost:8080/dist/views/#/games/">Start</a></button>
+ 	 <div class="container">
+		 <div class="list-group">
+			<h2>Current Games</h2>
+		 	<div class="list-group-item" ng-repeat="game in games | orderBy:'game.createdOn'">
+			 	<h3 class="list-group-item-heading">{{ game.gameTemplate.id }}</h3>
+			 	<div style="float:right;">
+					<button ng-show="game.state == 'open' && game.players.length != game.maxPlayers && isLoggedIn()" class="btn btn-success btn-lg" ng-click="joinGame(game.id)">Join</button>
+					<button ng-show="game.state == 'playing'" class="btn btn-warning btn-lg">Playing</button>
+				 	<button ng-show="game.state == 'finished'" class="btn btn-danger btn-lg">Finished</button>
+				 	<button ng-show="game.state == 'playing' || game.state == finished" class="btn btn-info btn-lg"><a ng-href="http://localhost:8080/dist/views/#/games/{{game.id}}">Watch</a></button>
+				 	<button ng-show="game.state == 'open' && game.players.length >= game.minPlayers" class="btn btn-info btn-lg"><a ng-click="startGame(game.id)" ng-href="http://localhost:8080/dist/views/#/games">Start</a></button>
+			 	</div>
+			 	<span> Created on: {{ game.createdOn }}</span><span ng-show="game.startedOn">, Started on: {{ game.startedOn }}</span><span ng-show="game.endedOn">, Ended on: {{ game.endedOn }}</span><br/>
+			 	<span> Created By: {{ game.createdBy.name }}</span><br/>
+			 	<span> Players: {{ game.players.length }}/{{ game.maxPlayers }}</span>
 		 	</div>
-		 	<span> Created on: {{ game.createdOn }}</span><span ng-show="game.startedOn">, Started on: {{ game.startedOn }}</span><span ng-show="game.endedOn">, Ended on: {{ game.endedOn }}</span><br/>
-		 	<span> Created By: {{ game.createdBy.name }}</span><br/>
-		 	<span> Players: {{ game.players.length }}/{{ game.maxPlayers }}</span>
-	 	</div>
+		</div>
 	</div>
  </body>
 </html>

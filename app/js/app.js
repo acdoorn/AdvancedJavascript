@@ -1,14 +1,11 @@
 require('angular/angular');
-require('angular-route/angular-route')
 require('angular-ui-router/build/angular-ui-router');
 
 var ngStorage = require('ngstorage/ngStorage');
 var uiBootstrap = require('angular-bootstrap');
 
 // Create your app
-var app = angular.module("AdvJS", ['ui.router', 'ngStorage', 'ui.bootstrap', 'ngRoute']);
-
-//Auth
+var app = angular.module("AdvJS", ['ui.router', 'ngStorage', 'ui.bootstrap']);
 
 // //Factories
 var gameFactory = require("./../factories/GameFactory");
