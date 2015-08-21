@@ -39,7 +39,8 @@ app.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
   $stateProvider
     .state('home', {
       url: "/",
-      templateUrl: "../views/index.html"
+      templateUrl: "../views/gameList.html",
+      controller: "GamesController as console"
     })
     .state('gameList', {
       url: "/games",

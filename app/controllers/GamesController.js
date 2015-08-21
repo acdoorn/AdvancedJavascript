@@ -5,7 +5,6 @@ module.exports = function($scope, $http, GameFactory, AuthFactory) {
 	$scope.pageIndex = 1; // Huidige pagina, niet verder geimplementeerd
 	$scope.maxSize = 5; // Maximaal aantal paginas laten zien in pagination, niet verder geimplementeerd
 
-
 	getGames();
 
 
@@ -21,6 +20,10 @@ module.exports = function($scope, $http, GameFactory, AuthFactory) {
 		GameFactory.postGamePlayers(gameId).success(function (_response){
 			getGames();
 		});
+	}
+
+	$scope.setGameStateFilter = function(gameState){
+		$scope.gameStateFilter = gameState;
 	}
 
 	$scope.startGame = function(gameId){
@@ -44,7 +47,7 @@ module.exports = function($scope, $http, GameFactory, AuthFactory) {
 	$scope.postGame = function(game){
 		GameFactory.postGame(game)
 		.success(function (response){
-	        alert("Game is saved");
+			location.reload();
 	        return true;
 	    })
 	    .error(function (response){
