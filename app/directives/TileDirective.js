@@ -18,10 +18,12 @@ var TileDirective = function(){
 			}
 			var top = tile.yPos * 22.5 + (tile.zPos *5);
 			var left = tile.xPos * 18 + (tile.zPos *2);
+			var shadow = tile.zPos * 3;
 			element.css({
 	  			"left":  + left + 'px',
 	  			"top":  + top +'px',
-	  			"z-index": tile.zPos
+	  			"z-index": tile.zPos,
+	  			"box-shadow": shadow + 'px 0px ' + shadow + 'px'
 	  		});
 
 		}

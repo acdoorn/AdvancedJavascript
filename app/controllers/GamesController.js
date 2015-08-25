@@ -31,6 +31,7 @@ module.exports = function($scope, $http, GameFactory, AuthFactory) {
 		.success(function (response){
 			alert("Game is started");
 			getGames();
+			location.reload();
 
 		})
 		.error(function (response){
