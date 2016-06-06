@@ -1,0 +1,16 @@
+/* Themes */
+$theme_light_bg: #ffffff;
+$theme_light_color: #2c3e50;
+$theme_light_sprite: url('../img/tiles2.png');
+$theme_dark_bg: #C9CED3;
+$theme_dark_color: #2c3e50;
+$theme_dark_sprite: url('../img/tiles3.png');
+
+/* Board */
+$selected_tile_bg: rgba(255, 106, 0, 0.3);
+$tile_width: 40;
+$tile_height: 55;
+$tiles: "bamboo-1" "bamboo-2" "bamboo-3" "bamboo-4" "bamboo-5" "bamboo-6" "bamboo-7" "bamboo-8" "bamboo-9" "character-1" "character-2" "character-3" "character-4" "character-5" "character-6" "character-7" "character-8" "character-9" "circle-1" "circle-2" "circle-3" "circle-4" "circle-5" "circle-6" "circle-7" "circle-8" "circle-9" "dragon-green" "dragon-red" "dragon-white" "flower-bamboo" "flower-chrysantememum" "flower-orchid" "flower-plum" "season-autumn" "season-spring" "season-summer" "season-winter" "wind-east" "wind-north" "wind-south" "wind-west";
+
+@import "global.scss";
+@import "board.scss";

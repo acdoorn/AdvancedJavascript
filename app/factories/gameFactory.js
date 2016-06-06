@@ -80,7 +80,7 @@ module.exports = function($http){
         var y = tile.yPos;
         var z = tile.zPos;
 
-        if(blockedByTileOnLeftOrRight(tiles, tile) || blockedByTileOnTop(tiles, tile) || blockedByTileAboveOrBelow(tiles, tile)){
+        if(blockedByTileOnLeftOrRight(tiles, tile) || blockedByTileOnTop(tiles, tile) ){ // Hard mode: || blockedByTileAboveOrBelow(tiles, tile)
             return false;
         }
 

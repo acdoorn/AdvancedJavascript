@@ -11,7 +11,7 @@ var TileDirective = function(){
 			var tile = scope.tile;
 
 			if(tile.tile !== undefined){
-				element.addClass("tile" + " suit_" + tile.tile.suit.toLowerCase() + ' name_' + tile.tile.name.toLowerCase());
+				element.addClass(tile.tile.suit.toLowerCase() + '-' + tile.tile.name.toLowerCase());
 			}
 			else {
 				element.addClass('empty'); // template

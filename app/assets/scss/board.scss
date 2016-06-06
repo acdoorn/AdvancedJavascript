@@ -1,0 +1,45 @@
+%pseudo-block {
+	content: " ";
+	display: block;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+}
+
+.board {
+	position: relative;
+	min-height: 480px;
+
+	tile {
+		position: absolute;
+		width: #{$tile_width}px;
+		height: #{$tile_height}px;
+		background-size: #{$tile_width}px #{$tile_height*length($tiles)}px;
+		cursor: pointer;
+
+		&.selected:after {
+			@extend %pseudo-block;
+			width: #{$tile_width}px;
+			height: #{$tile_height}px;
+			z-index: 1;
+			background: $selected_tile_bg;
+		}
+
+		&.empty {
+			background: $selected_tile_bg;
+		}
+
+		@each $tile in $tiles {
+		    $i: index($tiles, $tile);
+
+		    $selector: unquote('.#{$tile}');
+		    $position: #{($i - 1) * $tile_height};
+
+		    &#{$selector} {
+		      background-position: 0 #{-$position}px;
+		    }
+		}
+
+	}
+
+}

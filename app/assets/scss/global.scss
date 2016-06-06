@@ -1,0 +1,47 @@
+html, body{
+
+	height: 100%;
+
+	.theme-light {
+		background: $theme_light_bg;
+		color: $theme_light_color;
+
+		.board tile {
+			background-image: $theme_light_sprite;
+		}
+	}
+	.theme-dark {
+		background: $theme_dark_bg;
+		color: $theme_dark_color;
+
+		.board tile {
+			background-image: $theme_dark_sprite;
+		}
+	}
+
+	.theme-light,
+	.theme-dark {
+		.board tile.empty {
+			background: $selected_tile_bg;
+		}
+	}
+}
+
+html {
+	overflow-y: scroll;
+}
+
+.navbar {
+	margin-bottom: 20px;
+}
+
+.nav, 
+.pagination, 
+.carousel, 
+.panel-title a {
+	cursor: pointer;
+}
+
+.navbar-default .navbar-text {
+	color: #A0A0A0
+}
