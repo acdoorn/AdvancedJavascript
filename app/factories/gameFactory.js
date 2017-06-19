@@ -1,6 +1,6 @@
 //GameFactory.js
 module.exports = function($http){
-    var _ = require('../assets/js/underscore');
+    var _ = require('underscore/underscore');
     var factory = {};
 
     var base_url = 'https://mahjongmayhem.herokuapp.com/games/';

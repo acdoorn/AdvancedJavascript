@@ -7,7 +7,7 @@ module.exports = function($scope, $http, $stateParams, GameFactory, GameTemplate
     $scope.this = this;
 
 
-    var _ = require('../assets/js/underscore');
+    var _ = require('underscore/underscore');
 
     $scope.selectedTile = null;
     $scope.tilesMatches = [];

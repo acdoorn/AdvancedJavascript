@@ -8,7 +8,7 @@ var uiBootstrap = require('angular-bootstrap');
 var app = angular.module("AdvJS", ['ui.router', 'ngStorage', 'ui.bootstrap']);
 
 // //Factories 
-var gameFactory = require("./../factories/GameFactory");
+var gameFactory = require("./../factories/GameFactory"); 
 var gameTemplateFactory = require('./../factories/GameTemplateFactory.js');
 var authFactory = require('./../factories/AuthFactory.js');
 app.factory("GameFactory", gameFactory);
