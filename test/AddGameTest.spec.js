@@ -16,13 +16,13 @@ describe('GamesController', function() {
     $controller = _$controller_;
     $httpBackend = _$httpBackend_;
     GameFactory = _GameFactory_;
-    AuthFactory = _AuthFactory_;
+    AuthFactory = _AuthFactory_; 
     scope = $rootScope.$new();
 
     // Override alle requesten om zo de controller juist te testen
     httpBackend = $httpBackend;
     httpBackend.when("POST", "https://mahjongmayhem.herokuapp.com/games/").respond(game);
-    httpBackend.when("GET", "https://mahjongmayhem.herokuapp.com/games/?pageSize=10&pageIndex=0").respond(game);
+    httpBackend.when("GET", "https://mahjongmayhem.herokuapp.com/games/?pageSize=30&pageIndex=0").respond(game);
 
     // Maak controller aan met benodigheden
     var GamesController = $controller('GamesController', {
@@ -42,8 +42,8 @@ describe('GamesController', function() {
         "maxPlayers": 1
     };
 
-    GameFactory.postGame(newGame).success(function (response){
-      gameIsAdded = response;
+    GameFactory.postGame(newGame).then(function (response){
+      gameIsAdded = response.data;
     })
     httpBackend.flush();
 
