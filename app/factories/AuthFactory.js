@@ -9,7 +9,6 @@ module.exports = function($http, $localStorage){
     $http.defaults.headers.common['x-token'] = $localStorage.token;
 
 	factory.setCredentials = function(username, token) {
-
 		$localStorage.username = username;
         $localStorage.token = token;
         

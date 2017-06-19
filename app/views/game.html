@@ -1,12 +1,13 @@
+
 <h2>Current Game</h2>
 	<div class="theme-light">
-		<div class="col-md-4">
+		<div class="col-md-6">
 			<div class="board">
 				<h3>Gameboard</h3>
 				<tile ng-class="selectedTile === tile ? 'selected' : ''" ng-click="!isLoggedIn() || !isPlaying() || matchTile(tile)" ng-repeat="tile in tiles"></tile>
 			</div>
 		</div>
-		<div class="col-md-4">
+		<div class="col-md-6">
 			<div class="board">
 				<h3>Matched tiles</h3>
 				<tile ng-repeat="tile in matchedTiles"></tile>
@@ -16,4 +17,3 @@
 			    <button ng-click="isMatchAvailable()" class="btn btn-default btn-sm">Check if there are any matches left</button>
 		</div>
 	</div>
-</div>

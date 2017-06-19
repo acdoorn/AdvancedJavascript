@@ -8,7 +8,7 @@ module.exports = function($scope, $location, AuthFactory) {
 	}
 
 	$scope.isLoggedIn = function(){
-		return AuthFactory.isLoggedIn();
+		return AuthFactory.isLoggedIn(); 
 	}
 
     $scope.signOut = function(){

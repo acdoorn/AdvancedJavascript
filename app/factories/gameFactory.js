@@ -25,6 +25,7 @@ module.exports = function($http){
 
     // Geeft een object terug zoals gegeven in /Games
     factory.getGame = function(id){
+        console.log(id);
         return $http.get(base_url + id);
     }
 

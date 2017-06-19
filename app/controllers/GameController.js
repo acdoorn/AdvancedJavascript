@@ -27,7 +27,6 @@ module.exports = function($scope, $http, $stateParams, GameFactory, GameTemplate
             return true;
         }
         return false;
-
     }
 
     $scope.getMatchesByUser = function(userId){
@@ -51,20 +50,19 @@ module.exports = function($scope, $http, $stateParams, GameFactory, GameTemplate
                     $scope.tiles = _.without($scope.tiles, tile);
 
                     GameFactory.postGameTilesMatches($stateParams.gameId, {tile1Id: $scope.selectedTile._id, tile2Id: tile._id})
-                        .success(function(response){
-                            alert("Twee tegels gematched!");
+                        .then(function successCallback(response){
+                            //annoying when testing
+                            //alert("Twee tegels gematched!");
                             console.log("MATCH!");
                             getGameTiles(false);
                             getGameTiles(true);
                             if(!GameFactory.isMatchAvailable) {
                                 alert("Geen matches meer mogelijk!");
                             }
-                        })
-                        .error(function(response){
+                        }, function errorCallback(response){
                             alert("Dit is geen goedgekeurde match");
                             console.log(response.message);
                         });
-
                 }
                 else {
                     alert("Dit is geen goedgekeurde match");
@@ -73,46 +71,46 @@ module.exports = function($scope, $http, $stateParams, GameFactory, GameTemplate
                 $scope.selectedTile = null;
             }
         }
-
     }
 
     function getGame(){
-        GameFactory.getGame($stateParams.gameId).success(function (_response){
-            $scope.game = _response;
+        GameFactory.getGame($stateParams.gameId).then(function (_response){
+                console.log(_response.data); 
+            $scope.game = _response.data;
 
             // Get game template
-            GameTemplateFactory.getGameTemplate(_response.gameTemplate._id).success(function (response){
-                $scope.template = response;
+            GameTemplateFactory.getGameTemplate(_response.data.gameTemplate._id).then(function (response){
+                console.log(response.data);
+                $scope.template = response.data;
             });
         });
     }
 
     function getGameTiles(matched){
-        GameFactory.getGameTiles($stateParams.gameId, matched).success(function (response){
+        GameFactory.getGameTiles($stateParams.gameId, matched).then(function (response){ 
             if(matched){
-                $scope.matchedTiles = response;
+                $scope.matchedTiles = response.data;
             }
             else {
-                $scope.tiles = response;
+                $scope.tiles = response.data;
             }
         });
     }
 
     function getGameTilesMatchesByUser(userId){
-        GameFactory.getGameTilesMatches($stateParams.gameId).success(function (response){
+        GameFactory.getGameTilesMatches($stateParams.gameId).then(function (response){
             
             $scope.tilesMatches = [];
 
-            for (var key in response) {
+            for (var key in response.data) {
               if (response.hasOwnProperty(key)) {
 
-                if(response[key].match.foundBy == userId){
+                if(response.data[key].match.foundBy == userId){
                     $scope.tilesMatches.push(response[key]);
                 }
 
               }
             }
-
         });
     }
 
@@ -123,5 +121,4 @@ module.exports = function($scope, $http, $stateParams, GameFactory, GameTemplate
             alert('Geen matches meer mogelijk');
         }
     }
-
 };

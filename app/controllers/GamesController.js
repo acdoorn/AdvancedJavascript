@@ -1,7 +1,7 @@
 // GamesController.js
-module.exports = function($scope, $http, GameFactory, AuthFactory) {
+module.exports = function($scope, $http, GameFactory, AuthFactory, $state) {
 
-	$scope.pageSize = 10; // Aantal item op pagina, niet verder geimplementeerd
+	$scope.pageSize = 30; // Aantal item op pagina, niet verder geimplementeerd
 	$scope.pageIndex = 1; // Huidige pagina, niet verder geimplementeerd
 	$scope.maxSize = 5; // Maximaal aantal paginas laten zien in pagination, niet verder geimplementeerd
 
@@ -17,7 +17,7 @@ module.exports = function($scope, $http, GameFactory, AuthFactory) {
     }
 
 	$scope.joinGame = function(gameId){
-		GameFactory.postGamePlayers(gameId).success(function (_response){
+		GameFactory.postGamePlayers(gameId).then(function (_response){
 			getGames();
 		});
 	}
@@ -28,32 +28,34 @@ module.exports = function($scope, $http, GameFactory, AuthFactory) {
 
 	$scope.startGame = function(gameId){
 		GameFactory.postGameStart(gameId)
-		.success(function (response){
+		.then(function successCallback(response){
 			alert("Game is started");
 			getGames();
-			location.reload();
+			$state.go($state.current, {}, {reload:true});
 
-		})
-		.error(function (response){
-			alert(response.message);
-		});
+		}, function errorCallback(response){
+	        alert(response.message);
+	    });
 	}
 
+	$scope.showGame = function(gameId) {
+		window.location.replace("http://localhost:8080/dist/views/#/games/" + gameId);
+	};
+
 	function getGames(queryName, queryValue){
-		GameFactory.getGames($scope.pageSize, $scope.pageIndex, queryName, queryValue).success(function (response, status, headers, config){
-	        $scope.games = response;
+		GameFactory.getGames($scope.pageSize, $scope.pageIndex, queryName, queryValue).then(function (response, status, headers, config){
+	        $scope.games = Object.values(response)[0];
 	    });
     }
 
 	$scope.postGame = function(game){
 		GameFactory.postGame(game)
-		.success(function (response){
-			location.reload();
+		.then(function successCallback(response){
+			$state.go($state.current, {}, {reload:true});
 	        return true;
-	    })
-	    .error(function (response){
+	    }, function errorCallback(response){
 	        alert("Something went wrong..");
 	        return false;
-	    })
+	    });
 	};
 }

@@ -1,14 +1,3 @@
-<html lang="en" ng-app="AdvJS">
- <head>
- <base href="/dist/views/">
-   <!-- The css is copied into dist/css/app.css by the copy task -->
-
- </head>
- <body ng-controller="UserController" >
- 	 <div class="container">
-		<a class="btn btn-warning navbar-btn" ng-show="isLoggedIn()" ng-click="signOut()">Sign out</a>
-		<a class="btn btn-success navbar-btn" ng-show="!isLoggedIn()" href="http://mahjongmayhem.herokuapp.com/auth/avans?callbackUrl=http://localhost:8080/dist/views/%23/">Sign in</a>
-		<p class="navbar-text navbar-right" ng-show="isLoggedIn()"> {{ getUsername() }}&nbsp;</p>
 	 	 <div class="col-md-6 col-md-offset-3" ng-show="isLoggedIn()">
 		 	<h2>Add Game</h2>
 			<form name="addForm" ng-submit="postGame(new)">
@@ -42,7 +31,7 @@
  	 <div class="container">
 		 <div class="list-group">
 			<h2>Current Games</h2>
-			<div class="navbar">
+			<div class="navbar"> 
 				<button class="btn btn-success btn-lg" ng-click="setGameStateFilter('')">All</button>
 				<button class="btn btn-warning btn-lg" ng-click="setGameStateFilter('playing')">Playing</button>
 			 	<button class="btn btn-danger btn-lg" ng-click="setGameStateFilter('finished')">Finished</button>
@@ -54,14 +43,11 @@
 					<button ng-show="game.state == 'open' && game.players.length != game.maxPlayers && isLoggedIn() && game.players.indexOf(getUsername()) != -1" class="btn btn-success btn-lg" ng-click="joinGame(game.id)">Join</button>
 					<button ng-show="game.state == 'playing'" class="btn btn-warning btn-lg" disabled>Playing</button>
 				 	<button ng-show="game.state == 'finished'" class="btn btn-danger btn-lg" disabled>Finished</button>
-				 	<button ng-show="game.state == 'playing' || game.state == finished" class="btn btn-info btn-lg"><a ng-href="http://localhost:8080/dist/views/#/games/{{game.id}}">Watch</a></button>
-				 	<button ng-show="game.state == 'open' && game.players.length >= game.minPlayers && isLoggedIn() && game.createdBy._id == getUsername()" class="btn btn-info btn-lg"><a ng-click="startGame(game.id)" ng-href="http://localhost:8080/dist/views/#/games">Start</a></button>
+				 	<a ng-show="game.state == 'playing' || game.state == finished" class="btn btn-info btn-lg"  ui-sref="game({gameId: game.id})" ui-sref-active="active">Watch</a>
+				 	<button ng-show="game.state == 'open' && game.players.length >= game.minPlayers && isLoggedIn() && game.createdBy._id == getUsername()" class="btn btn-info btn-lg" ng-click="startGame(game.id)" >Start</button>
 			 	</div>
 			 	<span> Created on: {{ game.createdOn }}</span><span ng-show="game.startedOn">, Started on: {{ game.startedOn }}</span><span ng-show="game.endedOn">, Ended on: {{ game.endedOn }}</span><br/>
 			 	<span> Created By: {{ game.createdBy.name }}</span><br/>
 			 	<span> Players: {{ game.players.length }}/{{ game.maxPlayers }} ( <span ng-repeat="player in game.players">{{player.name}} - </span>)</span>
 		 	</div>
 		</div>
-	</div>
- </body>
-</html>
